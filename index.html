@@ -2,86 +2,79 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Family Feud: Game Master Edition</title>
+    <title>Family Feud Professional Edition</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="screen-menu" class="screen">
         <h1 class="main-title">FAMILY FEUD</h1>
         <div class="menu-buttons">
-            <button class="btn-start" onclick="showScreen('screen-setup')">START STANDARD GAME</button>
-            <button class="btn-extreme" onclick="startExtremeMode()">START EXTREME MODE</button>
+            <button class="btn-start" onclick="showScreen('screen-setup')">START GAME</button>
+            <button class="btn-extreme" onclick="startExtremeMode()">EXTREME MODE (Solo)</button>
             <button class="btn-editor" onclick="showScreen('screen-editor')">QUESTION EDITOR</button>
         </div>
     </div>
 
     <div id="screen-setup" class="screen hidden">
-        <h2 class="section-title">TEAM REGISTRATION</h2>
+        <h2>Enter Team Names</h2>
         <div class="setup-grid">
-            <div class="input-group">
-                <label>TEAM 1 NAME</label>
-                <input type="text" id="team1-name-input" value="TEAM APPLE">
-            </div>
-            <div class="input-group">
-                <label>TEAM 2 NAME</label>
-                <input type="text" id="team2-name-input" value="TEAM BANANA">
-            </div>
+            <input type="text" id="team1-name-input" placeholder="Team 1 Name" value="TEAM A">
+            <input type="text" id="team2-name-input" placeholder="Team 2 Name" value="TEAM B">
         </div>
-        <button class="btn-start" onclick="initGame()">LAUNCH GAME</button>
+        <button class="btn-start" onclick="initGame()">BEGIN FEUD</button>
     </div>
 
     <div id="screen-editor" class="screen hidden">
-        <h2 class="section-title">GAME CONTENT EDITOR</h2>
-        <div id="editor-container" class="editor-scroll"></div>
-        <button class="btn-start" onclick="saveData()">SAVE ALL CHANGES</button>
+        <h2>Question Editor</h2>
+        <div id="editor-container">
+            </div>
+        <button class="btn-start" onclick="saveData()">SAVE & BACK</button>
     </div>
 
     <div id="screen-game" class="screen hidden">
-        <div class="game-header">
-            <div class="team-card" id="team1-ui" onclick="selectTeam(1)">
-                <h3 id="t1-label">TEAM 1</h3>
-                <div class="score-val" id="t1-score">0</div>
+        <header>
+            <div class="team-box" id="team1-ui">
+                <span id="t1-label">TEAM A</span>
+                <div class="score-box" id="t1-score">0</div>
             </div>
-            <div class="strike-display" id="strike-dots"></div>
-            <div class="team-card" id="team2-ui" onclick="selectTeam(2)">
-                <h3 id="t2-label">TEAM 2</h3>
-                <div class="score-val" id="t2-score">0</div>
+            <div class="strike-tracker" id="strike-dots"></div>
+            <div class="team-box" id="team2-ui">
+                <span id="t2-label">TEAM B</span>
+                <div class="score-box" id="t2-score">0</div>
             </div>
+        </header>
+
+        <div class="question-bar"><h2 id="current-question">Question?</h2></div>
+        <div class="bank-box">ROUND BANK: <span id="bank-total">0</span></div>
+
+        <div class="board" id="board">
+            <div class="slot" id="slot-0"><div class="num">1</div><div class="text" id="ans-0"></div><div class="pts" id="pts-0"></div></div>
+            <div class="slot" id="slot-4"><div class="num">5</div><div class="text" id="ans-4"></div><div class="pts" id="pts-4"></div></div>
+            <div class="slot" id="slot-1"><div class="num">2</div><div class="text" id="ans-1"></div><div class="pts" id="pts-1"></div></div>
+            <div class="slot" id="slot-5"><div class="num">6</div><div class="text" id="ans-5"></div><div class="pts" id="pts-5"></div></div>
+            <div class="slot" id="slot-2"><div class="num">3</div><div class="text" id="ans-2"></div><div class="pts" id="pts-2"></div></div>
+            <div class="slot" id="slot-6"><div class="num">7</div><div class="text" id="ans-6"></div><div class="pts" id="pts-6"></div></div>
+            <div class="slot" id="slot-3"><div class="num">4</div><div class="text" id="ans-3"></div><div class="pts" id="pts-3"></div></div>
+            <div class="slot" id="slot-7"><div class="num">8</div><div class="text" id="ans-7"></div><div class="pts" id="pts-7"></div></div>
         </div>
 
-        <div class="question-container">
-            <h2 id="current-question">QUESTION TEXT GOES HERE</h2>
-        </div>
-
-        <div class="main-play-area">
-            <div class="feud-board" id="board">
-                </div>
-
-            <div class="gm-controls">
-                <div class="bank-box">
-                    <small>ROUND BANK</small>
-                    <div id="bank-total">0</div>
-                </div>
-                <button class="strike-trigger" onclick="triggerStrike()">
-                    <span class="x-icon">✖</span><br>WRONG
-                </button>
-            </div>
-        </div>
-
-        <div class="footer-actions">
-            <button id="btn-next-round" class="hidden" onclick="advanceRound()">AWARD BANK & NEXT ROUND</button>
+        <div class="game-controls">
+            <input type="text" id="user-input" placeholder="Type answer...">
+            <button onclick="checkAnswer()">SUBMIT</button>
+            <button id="btn-next-round" class="hidden" onclick="advanceRound()" style="background:#f1c40f; color:black">NEXT ROUND</button>
         </div>
     </div>
 
     <div id="screen-end" class="screen hidden">
-        <h1 class="main-title">FINAL RESULTS</h1>
-        <div id="final-results" class="results-box"></div>
-        <h2 class="thanks-msg">THANKS FOR PLAYING!</h2>
-        <button class="btn-editor" onclick="location.reload()">RESTART GAME</button>
+        <h1>FINAL SCORES</h1>
+        <div id="final-results"></div>
+        <p class="thanks">Thanks for playing!</p>
+        <button class="btn-editor" onclick="location.reload()">RESTART</button>
     </div>
 
-    <div id="strike-overlay" class="strike-overlay"><div id="strike-x">X</div></div>
+    <div id="strike-overlay" class="strike-overlay">
+        <div class="x-container" id="strike-x">X</div>
+    </div>
 
     <script src="script.js"></script>
 </body>
