@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Family Feud AI Edition</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <header>
+            <div class="score-box" id="team1-score">0</div>
+            <h1>FAMILY FEUD</h1>
+            <div class="score-box" id="team2-score">0</div>
+        </header>
+
+        <div class="question-bar">
+            <h2 id="current-question">Press "Start Game" to Begin!</h2>
+        </div>
+
+        <div class="board" id="board">
+            <div class="slot" onclick="reveal(0)"><div class="num">1</div><div class="text" id="ans-0"></div><div class="pts" id="pts-0"></div></div>
+            <div class="slot" onclick="reveal(4)"><div class="num">5</div><div class="text" id="ans-4"></div><div class="pts" id="pts-4"></div></div>
+            <div class="slot" onclick="reveal(1)"><div class="num">2</div><div class="text" id="ans-1"></div><div class="pts" id="pts-1"></div></div>
+            <div class="slot" onclick="reveal(5)"><div class="num">6</div><div class="text" id="ans-5"></div><div class="pts" id="pts-5"></div></div>
+            <div class="slot" onclick="reveal(2)"><div class="num">3</div><div class="text" id="ans-2"></div><div class="pts" id="pts-2"></div></div>
+            <div class="slot" onclick="reveal(6)"><div class="num">7</div><div class="text" id="ans-6"></div><div class="pts" id="pts-6"></div></div>
+            <div class="slot" onclick="reveal(3)"><div class="num">4</div><div class="text" id="ans-3"></div><div class="pts" id="pts-3"></div></div>
+            <div class="slot" onclick="reveal(7)"><div class="num">8</div><div class="text" id="ans-7"></div><div class="pts" id="pts-7"></div></div>
+        </div>
+
+        <div class="controls">
+            <button onclick="prevRound()">Prev Round</button>
+            <button onclick="startGame()" style="background: #27ae60;">Start / Reset</button>
+            <button onclick="nextRound()">Next Round</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

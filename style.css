@@ -1,0 +1,101 @@
+body {
+    background: #1a1a2e;
+    color: white;
+    font-family: 'Arial Black', sans-serif;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.game-container {
+    width: 900px;
+    text-align: center;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.score-box {
+    background: #f1c40f;
+    color: #000;
+    font-size: 3rem;
+    padding: 10px 30px;
+    border: 5px solid #fff;
+    border-radius: 10px;
+}
+
+.question-bar {
+    background: linear-gradient(to bottom, #34495e, #2c3e50);
+    padding: 15px;
+    border: 3px solid #f1c40f;
+    margin-bottom: 20px;
+    min-height: 50px;
+}
+
+.board {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 15px;
+    background: #0f3460;
+    padding: 20px;
+    border-radius: 15px;
+    border: 10px solid #16213e;
+}
+
+.slot {
+    background: linear-gradient(45deg, #2980b9, #3498db);
+    height: 60px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    border: 2px solid #fff;
+    position: relative;
+    overflow: hidden;
+}
+
+.slot .num {
+    background: #f1c40f;
+    color: black;
+    width: 50px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+}
+
+.slot .text {
+    flex-grow: 1;
+    padding-left: 20px;
+    text-align: left;
+    visibility: hidden; /* Hidden until clicked */
+}
+
+.slot .pts {
+    padding-right: 20px;
+    visibility: hidden;
+}
+
+.slot.revealed .text, .slot.revealed .pts {
+    visibility: visible;
+}
+
+.slot.revealed {
+    background: #fff;
+    color: #000;
+}
+
+.controls { margin-top: 30px; }
+button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    background: #e74c3c;
+    color: white;
+    border: none;
+    margin: 0 5px;
+}
