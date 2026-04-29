@@ -2,15 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Family Feud Professional Edition</title>
+    <title>Family Feud: Game Master Edition</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="screen-menu" class="screen">
         <h1 class="main-title">FAMILY FEUD</h1>
         <div class="menu-buttons">
-            <button class="btn-start" onclick="showScreen('screen-setup')">START GAME</button>
-            <button class="btn-extreme" onclick="startExtremeMode()">EXTREME MODE (Solo)</button>
+            <button class="btn-start" onclick="showScreen('screen-setup')">START GAME (5 ROUNDS)</button>
+            <button class="btn-extreme" onclick="startExtremeMode()">EXTREME MODE (1 ROUND)</button>
             <button class="btn-editor" onclick="showScreen('screen-editor')">QUESTION EDITOR</button>
         </div>
     </div>
@@ -18,50 +18,60 @@
     <div id="screen-setup" class="screen hidden">
         <h2>Enter Team Names</h2>
         <div class="setup-grid">
-            <input type="text" id="team1-name-input" placeholder="Team 1 Name" value="TEAM A">
-            <input type="text" id="team2-name-input" placeholder="Team 2 Name" value="TEAM B">
+            <input type="text" id="team1-name-input" placeholder="Team 1" value="TEAM A">
+            <input type="text" id="team2-name-input" placeholder="Team 2" value="TEAM B">
         </div>
         <button class="btn-start" onclick="initGame()">BEGIN FEUD</button>
     </div>
 
     <div id="screen-editor" class="screen hidden">
         <h2>Question Editor</h2>
-        <div id="editor-container">
-            </div>
+        <div id="editor-container"></div>
+        <div class="editor-round" style="border-top: 5px solid #e74c3c; margin-top: 20px;">
+            <h3>EXTREME ROUND (Solo)</h3>
+            <input type="text" id="q-extreme" placeholder="Extreme Question...">
+            <div id="extreme-ans-container"></div>
+        </div>
         <button class="btn-start" onclick="saveData()">SAVE & BACK</button>
     </div>
 
     <div id="screen-game" class="screen hidden">
         <header>
-            <div class="team-box" id="team1-ui">
+            <div class="team-box clickable-team" id="team1-ui" onclick="selectTeam(1)">
                 <span id="t1-label">TEAM A</span>
                 <div class="score-box" id="t1-score">0</div>
             </div>
             <div class="strike-tracker" id="strike-dots"></div>
-            <div class="team-box" id="team2-ui">
+            <div class="team-box clickable-team" id="team2-ui" onclick="selectTeam(2)">
                 <span id="t2-label">TEAM B</span>
                 <div class="score-box" id="t2-score">0</div>
             </div>
         </header>
 
         <div class="question-bar"><h2 id="current-question">Question?</h2></div>
-        <div class="bank-box">ROUND BANK: <span id="bank-total">0</span></div>
-
-        <div class="board" id="board">
-            <div class="slot" id="slot-0"><div class="num">1</div><div class="text" id="ans-0"></div><div class="pts" id="pts-0"></div></div>
-            <div class="slot" id="slot-4"><div class="num">5</div><div class="text" id="ans-4"></div><div class="pts" id="pts-4"></div></div>
-            <div class="slot" id="slot-1"><div class="num">2</div><div class="text" id="ans-1"></div><div class="pts" id="pts-1"></div></div>
-            <div class="slot" id="slot-5"><div class="num">6</div><div class="text" id="ans-5"></div><div class="pts" id="pts-5"></div></div>
-            <div class="slot" id="slot-2"><div class="num">3</div><div class="text" id="ans-2"></div><div class="pts" id="pts-2"></div></div>
-            <div class="slot" id="slot-6"><div class="num">7</div><div class="text" id="ans-6"></div><div class="pts" id="pts-6"></div></div>
-            <div class="slot" id="slot-3"><div class="num">4</div><div class="text" id="ans-3"></div><div class="pts" id="pts-3"></div></div>
-            <div class="slot" id="slot-7"><div class="num">8</div><div class="text" id="ans-7"></div><div class="pts" id="pts-7"></div></div>
+        <p style="color: #f1c40f;">GM: Click the active Team name to award points!</p>
+        
+        <div class="game-layout">
+            <div class="board" id="board">
+                <script>
+                    for(let i=0; i<8; i++) {
+                        document.write(`<div class="slot" id="slot-${i}" onclick="revealAnswer(${i})">
+                            <div class="num">${i+1}</div>
+                            <div class="text" id="ans-${i}"></div>
+                            <div class="pts" id="pts-${i}"></div>
+                        </div>`);
+                    }
+                </script>
+            </div>
+            
+            <div class="side-controls">
+                <button class="strike-btn" onclick="triggerStrike()">✖<br>WRONG</button>
+                <div class="bank-display">BANK<br><span id="bank-total">0</span></div>
+            </div>
         </div>
 
-        <div class="game-controls">
-            <input type="text" id="user-input" placeholder="Type answer...">
-            <button onclick="checkAnswer()">SUBMIT</button>
-            <button id="btn-next-round" class="hidden" onclick="advanceRound()" style="background:#f1c40f; color:black">NEXT ROUND</button>
+        <div class="bottom-controls">
+            <button id="btn-next-round" class="hidden" onclick="advanceRound()">PROCEED TO NEXT ROUND</button>
         </div>
     </div>
 
@@ -69,12 +79,10 @@
         <h1>FINAL SCORES</h1>
         <div id="final-results"></div>
         <p class="thanks">Thanks for playing!</p>
-        <button class="btn-editor" onclick="location.reload()">RESTART</button>
+        <button class="btn-editor" onclick="location.reload()">MAIN MENU</button>
     </div>
 
-    <div id="strike-overlay" class="strike-overlay">
-        <div class="x-container" id="strike-x">X</div>
-    </div>
+    <div id="strike-overlay" class="strike-overlay"><div class="x-container" id="strike-x">X</div></div>
 
     <script src="script.js"></script>
 </body>
