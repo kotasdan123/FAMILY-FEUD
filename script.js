@@ -85,3 +85,54 @@ function prevRound() {
         loadRound(currentRound);
     }
 }
+
+
+.input-area {
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+input[type="text"] {
+    padding: 10px;
+    font-size: 1.2rem;
+    border-radius: 5px;
+    border: none;
+    width: 300px;
+}
+
+.round-bank {
+    font-size: 1.5rem;
+    color: #f1c40f;
+    margin-bottom: 10px;
+}
+
+/* The Big Red X Overlay */
+.strike-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.x-container {
+    font-size: 20rem;
+    color: #e74c3c;
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    text-shadow: 0 0 50px #000;
+    animation: shake 0.5s;
+}
+
+@keyframes shake {
+    0% { transform: scale(0.5); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
