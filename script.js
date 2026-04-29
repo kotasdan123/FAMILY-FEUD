@@ -86,3 +86,117 @@ function prevRound() {
     }
 }
 
+let currentRound = 0;
+let strikes = 0;
+let roundBank = 0;
+let totalScore = 0;
+let revealedCount = 0;
+
+// Listen for "Enter" key on input
+document.getElementById('user-input').addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') checkAnswer();
+});
+
+function loadRound(index) {
+    const round = gameData[index];
+    strikes = 0;
+    roundBank = 0;
+    revealedCount = 0;
+    updateDisplays();
+    
+    document.getElementById('current-question').innerText = `ROUND ${index + 1}: ${round.question}`;
+    
+    for (let i = 0; i < 8; i++) {
+        const slot = document.querySelectorAll('.slot')[i];
+        slot.classList.remove('revealed');
+        document.getElementById(`ans-${i}`).innerText = round.answers[i].text;
+        document.getElementById(`pts-${i}`).innerText = round.answers[i].pts;
+    }
+}
+
+function checkAnswer() {
+    const input = document.getElementById('user-input').value.trim().toUpperCase();
+    if (!input) return;
+
+    const round = gameData[currentRound];
+    let foundIndex = -1;
+
+    // Check if input matches any answer
+    round.answers.forEach((ans, index) => {
+        if (ans.text === input || input.includes(ans.text) && ans.text.length > 3) {
+            // Check if it's already revealed
+            const slot = document.querySelectorAll('.slot')[index];
+            if (!slot.classList.contains('revealed')) {
+                foundIndex = index;
+            }
+        }
+    });
+
+    if (foundIndex !== -1) {
+        reveal(foundIndex);
+        roundBank += round.answers[foundIndex].pts;
+        revealedCount++;
+        updateDisplays();
+        
+        // If all answers found, move on
+        if (revealedCount === 8) endRound(true);
+    } else {
+        showStrike();
+    }
+
+    document.getElementById('user-input').value = "";
+}
+
+function showStrike() {
+    strikes++;
+    const overlay = document.getElementById('strike-overlay');
+    const xText = document.getElementById('strike-x');
+    
+    // Show X, XX, or XXX
+    xText.innerText = "X".repeat(strikes);
+    overlay.style.display = 'flex';
+
+    setTimeout(() => {
+        overlay.style.display = 'none';
+        if (strikes >= 3) {
+            endRound(false);
+        }
+    }, 1500);
+}
+
+function reveal(index) {
+    document.querySelectorAll('.slot')[index].classList.add('revealed');
+}
+
+function endRound(success) {
+    // Reveal everything
+    for (let i = 0; i < 8; i++) reveal(i);
+    
+    if (success) {
+        totalScore += roundBank;
+    } else {
+        alert("3 Strikes! You earned 0 for this round.");
+        roundBank = 0;
+    }
+
+    document.getElementById('team1-score').innerText = totalScore;
+
+    setTimeout(() => {
+        if (currentRound < 4) {
+            alert("Moving to next round!");
+            currentRound++;
+            loadRound(currentRound);
+        } else {
+            alert(`Game Over! Final Score: ${totalScore}`);
+        }
+    }, 3000);
+}
+
+function updateDisplays() {
+    document.getElementById('bank-total').innerText = roundBank;
+    document.getElementById('team1-score').innerText = totalScore;
+}
+
+// Initialize
+loadRound(0);
+
