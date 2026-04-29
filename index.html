@@ -2,52 +2,51 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Family Feud AI Edition</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="game-container">
         <header>
-            <div class="score-box" id="team1-score">0</div>
+            <div class="score-display">
+                <p>TOTAL SCORE</p>
+                <div class="score-box" id="total-score">0</div>
+            </div>
             <h1>FAMILY FEUD</h1>
-            <div class="score-box" id="team2-score">0</div>
+            <div class="strike-tracker" id="strike-dots">
+                </div>
         </header>
 
         <div class="question-bar">
-            <h2 id="current-question">Press "Start Game" to Begin!</h2>
+            <h2 id="current-question">Loading Round...</h2>
+        </div>
+
+        <div class="round-info">
+            <div class="bank-box">ROUND BANK: <span id="bank-total">0</span></div>
         </div>
 
         <div class="board" id="board">
-            <div class="slot" onclick="reveal(0)"><div class="num">1</div><div class="text" id="ans-0"></div><div class="pts" id="pts-0"></div></div>
-            <div class="slot" onclick="reveal(4)"><div class="num">5</div><div class="text" id="ans-4"></div><div class="pts" id="pts-4"></div></div>
-            <div class="slot" onclick="reveal(1)"><div class="num">2</div><div class="text" id="ans-1"></div><div class="pts" id="pts-1"></div></div>
-            <div class="slot" onclick="reveal(5)"><div class="num">6</div><div class="text" id="ans-5"></div><div class="pts" id="pts-5"></div></div>
-            <div class="slot" onclick="reveal(2)"><div class="num">3</div><div class="text" id="ans-2"></div><div class="pts" id="pts-2"></div></div>
-            <div class="slot" onclick="reveal(6)"><div class="num">7</div><div class="text" id="ans-6"></div><div class="pts" id="pts-6"></div></div>
-            <div class="slot" onclick="reveal(3)"><div class="num">4</div><div class="text" id="ans-3"></div><div class="pts" id="pts-3"></div></div>
-            <div class="slot" onclick="reveal(7)"><div class="num">8</div><div class="text" id="ans-7"></div><div class="pts" id="pts-7"></div></div>
-        </div>
-
-        <div class="controls">
-            <button onclick="prevRound()">Prev Round</button>
-            <button onclick="startGame()" style="background: #27ae60;">Start / Reset</button>
-            <button onclick="nextRound()">Next Round</button>
+            <div class="slot" id="slot-0"><div class="num">1</div><div class="text" id="ans-0"></div><div class="pts" id="pts-0"></div></div>
+            <div class="slot" id="slot-4"><div class="num">5</div><div class="text" id="ans-4"></div><div class="pts" id="pts-4"></div></div>
+            <div class="slot" id="slot-1"><div class="num">2</div><div class="text" id="ans-1"></div><div class="pts" id="pts-1"></div></div>
+            <div class="slot" id="slot-5"><div class="num">6</div><div class="text" id="ans-5"></div><div class="pts" id="pts-5"></div></div>
+            <div class="slot" id="slot-2"><div class="num">3</div><div class="text" id="ans-2"></div><div class="pts" id="pts-2"></div></div>
+            <div class="slot" id="slot-6"><div class="num">7</div><div class="text" id="ans-6"></div><div class="pts" id="pts-6"></div></div>
+            <div class="slot" id="slot-3"><div class="num">4</div><div class="text" id="ans-3"></div><div class="pts" id="pts-3"></div></div>
+            <div class="slot" id="slot-7"><div class="num">8</div><div class="text" id="ans-7"></div><div class="pts" id="pts-7"></div></div>
         </div>
 
         <div class="input-area">
-            <input type="text" id="user-input" placeholder="Type your answer here..." autocomplete="off">
-            <button onclick="checkAnswer()">Submit</button>
+            <input type="text" id="user-input" placeholder="Type your answer..." autocomplete="off">
+            <button id="submit-btn" onclick="checkAnswer()">SUBMIT</button>
         </div>
-
-        <div id="strike-overlay" class="strike-overlay">
-                <div class="x-container">
-                    <span id="strike-x">X</span>
-                </div>
-        </div>
-
-        <div class="round-bank">Bank: <span id="bank-total">0</span></div>
-     
     </div>
-        <script src="script.js"></script>
+
+    <div id="strike-overlay" class="strike-overlay">
+        <div class="x-container" id="strike-x">X</div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
