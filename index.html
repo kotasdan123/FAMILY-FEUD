@@ -2,29 +2,50 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Family Feud AI Edition</title>
+    <title>Family Feud Professional Edition</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="game-container">
-        <header>
-            <div class="score-display">
-                <p>TOTAL SCORE</p>
-                <div class="score-box" id="total-score">0</div>
+    <div id="screen-menu" class="screen">
+        <h1 class="main-title">FAMILY FEUD</h1>
+        <div class="menu-buttons">
+            <button class="btn-start" onclick="showScreen('screen-setup')">START GAME</button>
+            <button class="btn-extreme" onclick="startExtremeMode()">EXTREME MODE (Solo)</button>
+            <button class="btn-editor" onclick="showScreen('screen-editor')">QUESTION EDITOR</button>
+        </div>
+    </div>
+
+    <div id="screen-setup" class="screen hidden">
+        <h2>Enter Team Names</h2>
+        <div class="setup-grid">
+            <input type="text" id="team1-name-input" placeholder="Team 1 Name" value="TEAM A">
+            <input type="text" id="team2-name-input" placeholder="Team 2 Name" value="TEAM B">
+        </div>
+        <button class="btn-start" onclick="initGame()">BEGIN FEUD</button>
+    </div>
+
+    <div id="screen-editor" class="screen hidden">
+        <h2>Question Editor</h2>
+        <div id="editor-container">
             </div>
-            <h1>FAMILY FEUD</h1>
-            <div class="strike-tracker" id="strike-dots">
-                </div>
+        <button class="btn-start" onclick="saveData()">SAVE & BACK</button>
+    </div>
+
+    <div id="screen-game" class="screen hidden">
+        <header>
+            <div class="team-box" id="team1-ui">
+                <span id="t1-label">TEAM A</span>
+                <div class="score-box" id="t1-score">0</div>
+            </div>
+            <div class="strike-tracker" id="strike-dots"></div>
+            <div class="team-box" id="team2-ui">
+                <span id="t2-label">TEAM B</span>
+                <div class="score-box" id="t2-score">0</div>
+            </div>
         </header>
 
-        <div class="question-bar">
-            <h2 id="current-question">Loading Round...</h2>
-        </div>
-
-        <div class="round-info">
-            <div class="bank-box">ROUND BANK: <span id="bank-total">0</span></div>
-        </div>
+        <div class="question-bar"><h2 id="current-question">Question?</h2></div>
+        <div class="bank-box">ROUND BANK: <span id="bank-total">0</span></div>
 
         <div class="board" id="board">
             <div class="slot" id="slot-0"><div class="num">1</div><div class="text" id="ans-0"></div><div class="pts" id="pts-0"></div></div>
@@ -37,10 +58,18 @@
             <div class="slot" id="slot-7"><div class="num">8</div><div class="text" id="ans-7"></div><div class="pts" id="pts-7"></div></div>
         </div>
 
-        <div class="input-area">
-            <input type="text" id="user-input" placeholder="Type your answer..." autocomplete="off">
-            <button id="submit-btn" onclick="checkAnswer()">SUBMIT</button>
+        <div class="game-controls">
+            <input type="text" id="user-input" placeholder="Type answer...">
+            <button onclick="checkAnswer()">SUBMIT</button>
+            <button id="btn-next-round" class="hidden" onclick="advanceRound()" style="background:#f1c40f; color:black">NEXT ROUND</button>
         </div>
+    </div>
+
+    <div id="screen-end" class="screen hidden">
+        <h1>FINAL SCORES</h1>
+        <div id="final-results"></div>
+        <p class="thanks">Thanks for playing!</p>
+        <button class="btn-editor" onclick="location.reload()">RESTART</button>
     </div>
 
     <div id="strike-overlay" class="strike-overlay">
